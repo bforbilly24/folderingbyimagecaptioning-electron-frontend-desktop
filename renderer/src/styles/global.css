@@ -1,0 +1,66 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme {
+  --radius: 0.65rem;
+  
+  /* Light Theme Only - Clean UI Colors */
+  --color-background: #ffffff;
+  --color-foreground: #0f172a;
+  --color-card: #ffffff;
+  --color-card-foreground: #0f172a;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #0f172a;
+  
+  /* Primary blue for buttons, navigation, etc. */
+  --color-primary: #3b82f6;
+  --color-primary-foreground: #ffffff;
+  
+  /* Secondary colors */
+  --color-secondary: #f1f5f9;
+  --color-secondary-foreground: #334155;
+  
+  /* Muted colors */
+  --color-muted: #f1f5f9;
+  --color-muted-foreground: #64748b;
+  
+  /* Accent colors */
+  --color-accent: #f1f5f9;
+  --color-accent-foreground: #334155;
+  
+  /* Destructive colors */
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+  
+  /* Border and input colors */
+  --color-border: #e2e8f0;
+  --color-input: #e2e8f0;
+  --color-ring: #3b82f6;
+  
+  /* Chart colors */
+  --color-chart-1: #f59e0b;
+  --color-chart-2: #10b981;
+  --color-chart-3: #8b5cf6;
+  --color-chart-4: #f97316;
+  --color-chart-5: #06b6d4;
+}
+
+/* Global styles */
+* {
+  border-color: theme(colors.border);
+}
+
+/* Global base styles */
+
+/* Global base styles */
+body {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
+
+* {
+  border-color: var(--color-border);
+}

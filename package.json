@@ -1,0 +1,52 @@
+{
+    "name": "folderingbyimagecaptioning-electron-frontend-desktop",
+    "version": "1.0.0",
+    "main": "main.js",
+    "author": "Rizka rizkadf23@gmail.com",
+    "description": "An application for organizing images by captions",
+    "build": {
+        "appId": "com.example.folderingapp",
+        "productName": "Foldering App",
+        "asar": true,
+        "files": [
+            "main.js",
+            "preload.js",
+            "renderer/build/**/*",
+            "favicon.ico",
+            "favicon.icns"
+        ],
+        "mac": {
+            "icon": "favicon.icns",
+            "target": [
+                "dmg"
+            ]
+        },
+        "win": {
+            "icon": "favicon.ico",
+            "target": [
+                "nsis"
+            ]
+        },
+        "linux": {
+            "icon": "favicon.ico",
+            "target": [
+                "AppImage"
+            ]
+        }
+    },
+    "scripts": {
+        "start": "NODE_ENV=production electron .",
+        "build": "cd renderer && bun run build",
+        "dev": "bun --bun concurrently \"bun run dev:renderer\" \"bun run dev:electron\"",
+        "dev:renderer": "cd renderer && bun run dev",
+        "dev:electron": "wait-on http://localhost:5173 && NODE_ENV=development bun --bun electron . --no-sandbox --disable-dev-shm-usage",
+        "dist": "electron-builder --mac dmg --win nsis",
+        "build:prod": "bun run build && bun run start"
+    },
+    "devDependencies": {
+        "concurrently": "^9.1.2",
+        "electron": "^35.1.5",
+        "electron-builder": "^26.0.12",
+        "wait-on": "^8.0.3"
+    }
+}

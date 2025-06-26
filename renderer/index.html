@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <!-- End Favicon -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Foldering App</title>
+    <style>
+        /* Loading skeleton styles for faster perceived performance */
+        .loading-skeleton {
+            background: #f3f4f6;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        .loading-header {
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .loading-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+        .loading-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .loading-spinner {
+            width: 2rem;
+            height: 2rem;
+            border: 3px solid #e5e7eb;
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Hide skeleton once React loads */
+        #root:not(:empty) + .loading-skeleton {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+    <!-- Loading skeleton shown while React loads -->
+    <div class="loading-skeleton">
+        <div class="loading-header">
+            <img src="/favicon.ico" alt="Foldering App" style="width: 2rem; height: 2rem;" />
+            <span class="loading-title">Foldering App</span>
+        </div>
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+</body>
+
+</html>
