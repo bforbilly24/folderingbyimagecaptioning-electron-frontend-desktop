@@ -6,6 +6,7 @@ export interface ImageCategorization {
   category: string;
   cosine_similarity: number;
   bleu_score: number;
+  image_path: string;
 }
 
 export interface UploadResponse {
