@@ -3,10 +3,11 @@ import { IconDownload, IconFolderOpen } from '@tabler/icons-react'
 import { downloadZip } from '@/actions/get-download'
 import { getProgress } from '@/actions/get-progress'
 import { postUploadFolder } from '@/actions/post-upload'
+import { defaultLoadingStates } from '@/types/progress'
 import { UploadResponse, isAsyncResponse, isSyncResponse } from '@/types/upload'
-import { Button } from '@/components/ui/shadcn/button'
-import { FolderUpload } from '@/components/global/folder-upload'
-import { ResultsTable } from '@/components/global/results-table'
+import { Button } from '@/components/atoms/button'
+import { FolderUpload } from '@/components/organisms/folder-upload'
+import { ResultsCard } from '@/components/organisms/result-card'
 import { MultiStepLoader } from '@/features/home/components/multi-step-loader'
 
 const FolderUploadPage: React.FC = () => {
@@ -18,20 +19,6 @@ const FolderUploadPage: React.FC = () => {
   const [hasAttemptedUpload, setHasAttemptedUpload] = useState(false)
   const [loadingStates, setLoadingStates] = useState<{ text: string }[]>([])
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
-
-  // Default loading states for folder processing
-  const defaultLoadingStates = [
-    { text: 'Initializing folder processing...' },
-    { text: 'Loading AI models...' },
-    { text: 'Scanning folder contents...' },
-    { text: 'Extracting image features...' },
-    { text: 'Generating captions...' },
-    { text: 'Categorizing images...' },
-    { text: 'Organizing into folders...' },
-    { text: 'Creating Excel report...' },
-    { text: 'Generating ZIP file...' },
-    { text: 'Processing completed!' },
-  ]
 
   useEffect(() => {
     return () => {
@@ -45,7 +32,6 @@ const FolderUploadPage: React.FC = () => {
     try {
       const progressData = await getProgress(taskId)
 
-      // Update loading states based on server response
       const updatedStates = progressData.steps.map((step) => ({
         text: step.text,
       }))
@@ -65,7 +51,6 @@ const FolderUploadPage: React.FC = () => {
         }
       }
     } catch {
-      // Error polling progress handled
       if (intervalRef.current) {
         clearInterval(intervalRef.current)
         intervalRef.current = null
@@ -92,21 +77,17 @@ const FolderUploadPage: React.FC = () => {
     try {
       const result = await postUploadFolder(files)
 
-      // Check if the response has task_id (async) or direct result (sync)
       if (isAsyncResponse(result)) {
-        // Asynchronous mode - start polling for progress
         intervalRef.current = setInterval(() => {
           pollProgress(result.task_id)
         }, 1000)
       } else if (isSyncResponse(result)) {
-        // Synchronous mode - direct result
         setResponse(result)
         setIsLoading(false)
       }
     } catch {
       setError('Gagal mengunggah folder')
       setIsLoading(false)
-      // Upload error handled
     }
   }
 
@@ -125,7 +106,6 @@ const FolderUploadPage: React.FC = () => {
       window.URL.revokeObjectURL(url)
     } catch {
       setError('Gagal mengunduh file ZIP')
-      // Download error handled
     } finally {
       setIsDownloading(false)
     }
@@ -204,10 +184,10 @@ const FolderUploadPage: React.FC = () => {
             </div>
           )}
 
-          {/* Results Table */}
+          {/* Results Cards - Changed from ResultsTable */}
           {response && response.spreadsheet_data && (
             <div className='mt-6 w-full'>
-              <ResultsTable data={response.spreadsheet_data} />
+              <ResultsCard data={response.spreadsheet_data} />
             </div>
           )}
 
