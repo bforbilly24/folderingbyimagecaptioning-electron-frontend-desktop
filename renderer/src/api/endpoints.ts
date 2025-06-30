@@ -1,4 +1,3 @@
-// src/api/endpoints.ts
 import { BASE_API_URL } from '@/api/api-url'
 
 export const ENDPOINTS = {
@@ -8,4 +7,5 @@ export const ENDPOINTS = {
   },
   PROGRESS: `${BASE_API_URL}/v1/progress`,
   DOWNLOAD: `${BASE_API_URL}/v1/download`,
+  STATIC: `${BASE_API_URL}/processed_images`,
 } as const
