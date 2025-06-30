@@ -1,12 +1,14 @@
+// Updated Image Upload Page (src/features/image-upload/index.tsx)
 import { useState, useEffect, useRef } from 'react'
 import { IconDownload, IconUpload } from '@tabler/icons-react'
 import { downloadZip } from '@/actions/get-download'
 import { getProgress } from '@/actions/get-progress'
 import { postUploadImages } from '@/actions/post-upload'
+import { defaultLoadingStates } from '@/types/progress'
 import { UploadResponse, isAsyncResponse, isSyncResponse } from '@/types/upload'
-import { Button } from '@/components/ui/shadcn/button'
-import { FileUpload } from '@/components/global/file-upload'
-import { ResultsTable } from '@/components/global/results-table'
+import { Button } from '@/components/atoms/button'
+import { FileUpload } from '@/components/organisms/file-upload'
+import { ResultsCard } from '@/components/organisms/result-card'
 import { MultiStepLoader } from '@/features/home/components/multi-step-loader'
 
 const ImageUploadPage: React.FC = () => {
@@ -18,19 +20,6 @@ const ImageUploadPage: React.FC = () => {
   const [hasAttemptedUpload, setHasAttemptedUpload] = useState(false)
   const [loadingStates, setLoadingStates] = useState<{ text: string }[]>([])
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
-
-  // Default loading states for image processing
-  const defaultLoadingStates = [
-    { text: 'Initializing image processing...' },
-    { text: 'Loading AI models...' },
-    { text: 'Extracting image features...' },
-    { text: 'Generating captions...' },
-    { text: 'Categorizing images...' },
-    { text: 'Organizing into folders...' },
-    { text: 'Creating Excel report...' },
-    { text: 'Generating ZIP file...' },
-    { text: 'Processing completed!' },
-  ]
 
   useEffect(() => {
     return () => {
@@ -44,7 +33,6 @@ const ImageUploadPage: React.FC = () => {
     try {
       const progressData = await getProgress(taskId)
 
-      // Update loading states based on server response
       const updatedStates = progressData.steps.map((step) => ({
         text: step.text,
       }))
@@ -64,7 +52,6 @@ const ImageUploadPage: React.FC = () => {
         }
       }
     } catch {
-      // Error polling progress handled
       if (intervalRef.current) {
         clearInterval(intervalRef.current)
         intervalRef.current = null
@@ -91,21 +78,17 @@ const ImageUploadPage: React.FC = () => {
     try {
       const result = await postUploadImages(files)
 
-      // Check if the response has task_id (async) or direct result (sync)
       if (isAsyncResponse(result)) {
-        // Asynchronous mode - start polling for progress
         intervalRef.current = setInterval(() => {
           pollProgress(result.task_id)
         }, 1000)
       } else if (isSyncResponse(result)) {
-        // Synchronous mode - direct result
         setResponse(result)
         setIsLoading(false)
       }
     } catch {
       setError('Gagal mengunggah file gambar')
       setIsLoading(false)
-      // Upload error handled
     }
   }
 
@@ -124,7 +107,6 @@ const ImageUploadPage: React.FC = () => {
       window.URL.revokeObjectURL(url)
     } catch {
       setError('Gagal mengunduh file ZIP')
-      // Download error handled
     } finally {
       setIsDownloading(false)
     }
@@ -200,10 +182,10 @@ const ImageUploadPage: React.FC = () => {
             </div>
           )}
 
-          {/* Results Table */}
+          {/* Results Cards - Changed from ResultsTable */}
           {response && response.spreadsheet_data && (
             <div className='mt-6 w-full'>
-              <ResultsTable data={response.spreadsheet_data} />
+              <ResultsCard data={response.spreadsheet_data} />
             </div>
           )}
 
