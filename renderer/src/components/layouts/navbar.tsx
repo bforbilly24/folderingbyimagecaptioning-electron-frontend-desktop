@@ -3,7 +3,7 @@ import {
   NavigationMenu, 
   NavigationMenuItem, 
   NavigationMenuList
-} from "@/components/ui/shadcn/navigation-menu";
+} from "@/components/atoms/navigation-menu";
 import { MobileNav, MobileNavIcon } from "./mobile-nav";
 import { NavLink } from "./nav-link";
 import { NavLinkItem } from "@/types/navigation";
