@@ -7,7 +7,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/shadcn/alert-dialog";
+} from "@/components/atoms/alert-dialog";
 
 interface Props {
   children: ReactNode;

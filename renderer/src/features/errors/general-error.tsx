@@ -1,6 +1,6 @@
 import { useNavigate, useRouter } from '@tanstack/react-router'
 import { cn } from '@/lib/cn'
-import { Button } from '@/components/ui/shadcn/button'
+import { Button } from '@/components/atoms/button'
 
 interface GeneralErrorProps extends React.HTMLAttributes<HTMLDivElement> {
   minimal?: boolean
